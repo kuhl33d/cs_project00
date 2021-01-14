@@ -46,7 +46,6 @@ class product_action: public product{
                         tmp << line << endl;
                     }
                 }
-            }
             database.close();
             tmp.close();
             ofstream out;
@@ -57,6 +56,7 @@ class product_action: public product{
             }
             out.close();
             tmpp.close();
+            }
         }
         void setproduct(string idin){
             //set current product to the id
