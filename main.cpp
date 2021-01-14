@@ -43,6 +43,7 @@ class product_action: public product{
                     if( id == idin ){
                         tmp << product_id << '|' << product_name << '|' << product_amount << '|' << product_price << '|' << shelf_number << "|\n";
                     }else{
+                        //id != idin
                         tmp << line << endl;
                     }
                 }
@@ -158,7 +159,7 @@ class product_action: public product{
         void del(string idin){
             //delets current product
             string line,id;
-            int lineno = 0;
+            // int lineno = 0;
             ifstream database("products");
             ofstream tmp;
             tmp.open("tmp");
@@ -170,7 +171,6 @@ class product_action: public product{
                         tmp << line << endl;
                     }
                 }
-            }
             database.close();
             tmp.close();
             ofstream out;
@@ -186,6 +186,7 @@ class product_action: public product{
             product_amount = "";
             product_price = "";
             shelf_number = "";
+            }
         }
 };
 class store:public product_action{
@@ -201,7 +202,7 @@ class store:public product_action{
                 while(getline(users,line))
                 {
                     string tmp = line.substr(0,line.find('|'));
-                    if(line == userid)
+                    if(tmp == userid)
                     {
                         int p[2],x = 0;
                         for(int i = 0; i < line.length();i++){
@@ -210,7 +211,7 @@ class store:public product_action{
                             }
                         }
                         user_id = line.substr(0,p[0]);
-                        user_name = line.substr(p[1]+1,(p[1]-p[0]-1));
+                        user_name = line.substr(p[0]+1,(p[1]-p[0]-1));
                         user_role = (bool)line[line.length()-1];
                     }
                 }
@@ -223,9 +224,7 @@ class store:public product_action{
             string line,id;
             while(getline(users,line))
             {
-                for(int i =0;line[i] != '|';i++){
-                    id[i] = line[i];
-                }
+                id = line.substr(0,line.find('|'));
                 if(id == userid)
                 {
                     users.close();
@@ -366,7 +365,8 @@ int main(){
                 cout << "enter product id: ";
                 cin >> tmp1;
                 mystore.setproduct(tmp1);
-                cout << "1.add amount\n2.remove amount\n3.edit product\n4.delete product\nchoice: ";cin >> c;
+                cout << "1.add amount\n2.remove amount\n3.edit product\n4.delete product\nchoice: ";
+                cin >> c;
                 switch (c)
                 {
                 case 1:
